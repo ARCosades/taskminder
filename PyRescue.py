@@ -5,6 +5,7 @@ import datetime
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm as CM
 from rescuetime.api.service import Service
 from rescuetime.api.access import AnalyticApiKey
 
@@ -78,26 +79,27 @@ for idx, date in enumerate(datelist):
 df2 = pd.concat(eff)
 # Plot this efficiency percentile graph
 plt.figure()
+plt.subplot(211)
+plt.title('Accumulated Work Fraction')
 plt.scatter(x=hourssinceawake(df2.index.hour,0), y=df2)
 # Highlight the last day
 plt.scatter(x=hourssinceawake(eff[-1].index.hour,0), y=eff[-1], color='red')
 plt.scatter(x=hourssinceawake(eff[-2].index.hour,0), y=eff[-2], color='green')
-plt.show()
 
 
 
 
-# Create a 24x7 heatmap of productivity
-plt.figure()
-plt.pcolor(x)
+# Create a 24x7 heatmap of productivituy
+plt.subplot(212)
+plt.pcolor(x, cmap=CM.gist_heat)
 plt.xlabel('Day of Week')
 plt.ylabel('Hour of Day')
 
 
 # Create a scatter plot of efficiencies over time
-plt.figure()
-for idx, dfi_item in enumerate(dfi_list):
-        plt.scatter(x=idx*np.ones(dfi_item.shape), y=dfi_item)
+#plt.figure()
+#for idx, dfi_item in enumerate(dfi_list):
+#        plt.scatter(x=idx*np.ones(dfi_item.shape), y=dfi_item)
 
 
 plt.show()
